@@ -1,0 +1,17 @@
+{
+  "name": "cnpj-validation-bot",
+  "version": "1.0.0",
+  "description": "State-based wizard Telegram bot for CNPJ company verification",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  }
+}
