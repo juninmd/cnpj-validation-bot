@@ -1,0 +1,19 @@
+{
+  "name": "cnpj-validation-bot",
+  "version": "0.1.0",
+  "description": "A high-speed Telegram bot for Brazilian entrepreneurs to verify CNPJ authenticity and retrieve business details instantly.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "grammy": "^1.35.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
+  }
+}
