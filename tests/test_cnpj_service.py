@@ -4,7 +4,7 @@ import shutil
 import tempfile
 
 from src.cache.disk_cache import DiskCache
-from src.services.cnpj_service import CNPJService
+from src.services.cnpj_service import CNPJService, CNPJUnavailableError
 
 
 @pytest.fixture
@@ -54,3 +54,21 @@ def test_invalid_cnpj_raises_error(temp_disk_cache):
     service = CNPJService(cache=temp_disk_cache)
     with pytest.raises(ValueError):
         service.get_cnpj_info("123")
+
+
+def test_no_data_source_fails_explicitly_and_invents_nothing(temp_disk_cache):
+    service = CNPJService(cache=temp_disk_cache)
+    with pytest.raises(CNPJUnavailableError):
+        service.get_cnpj_info("12.345.678/0001-95")
+    # The failure must not be cached: nothing fabricated is stored for 24h.
+    assert temp_disk_cache.get("cnpj:12345678000195") is None
+
+
+def test_failed_fetch_is_not_cached(temp_disk_cache):
+    def failing_fetcher(clean_cnpj: str):
+        raise CNPJUnavailableError("upstream down")
+
+    service = CNPJService(cache=temp_disk_cache, fetcher=failing_fetcher)
+    with pytest.raises(CNPJUnavailableError):
+        service.get_cnpj_info("12345678000195")
+    assert temp_disk_cache.get("cnpj:12345678000195") is None
