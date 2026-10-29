@@ -4,6 +4,10 @@ from typing import Any, Callable, Dict, Optional
 from src.cache.base import BaseCache
 
 
+class CNPJUnavailableError(RuntimeError):
+    """Raised when no real CNPJ data source is configured or the lookup fails."""
+
+
 class CNPJService:
     """Service to look up CNPJ details with integrated caching layer."""
 
@@ -19,13 +23,8 @@ class CNPJService:
         return re.sub(r"\D", "", cnpj)
 
     def _default_fetcher(self, clean_cnpj: str) -> Dict[str, Any]:
-        """Fallback mock fetcher if no custom API fetcher provided."""
-        return {
-            "cnpj": clean_cnpj,
-            "razao_social": f"Empresa {clean_cnpj} LTDA",
-            "nome_fantasia": f"Fantasia {clean_cnpj}",
-            "status": "ATIVA",
-        }
+        """No real data source is configured: fail instead of inventing company data."""
+        raise CNPJUnavailableError(f"No CNPJ data source configured; cannot look up {clean_cnpj}")
 
     def get_cnpj_info(self, cnpj: str, ttl: Optional[int] = None) -> Dict[str, Any]:
         """Look up CNPJ business details with cache check.
