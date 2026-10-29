@@ -5,11 +5,9 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "node --import tsx --test tests/**/*.test.ts",
-    "lint": "eslint src/**/*.ts",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juninmd/cnpj-validation-bot.git"
   },
   "keywords": [
     "cnpj",
@@ -17,7 +15,6 @@
     "brazil",
     "validation"
   ],
-  "author": "",
   "license": "MIT",
   "dependencies": {
     "grammy": "^1.35.0"
