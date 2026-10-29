@@ -1,3 +1,1 @@
-npm install
-npm test
-npm run build
+pytest
